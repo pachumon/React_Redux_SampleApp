@@ -14,6 +14,7 @@ export default function CourseForm({
   console.log(saving);
   return (
     <form>
+      <h3>Manage Course</h3>
       <TextInput
         name="title"
         label="Title"
