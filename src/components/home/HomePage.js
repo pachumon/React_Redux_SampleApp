@@ -5,7 +5,7 @@ export default class Home extends Component {
     return (
       <div className="jumbotron">
         <h1>pluralsight administration</h1>
-        <p>react, react-router & flux for responsive apps</p>
+        <p>react, react-router, redux & redux-thunk for responsive apps</p>
       </div>
     )
   }

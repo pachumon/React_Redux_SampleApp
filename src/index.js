@@ -9,8 +9,13 @@ import "popper.js";
 import App from "./App";
 import configureStore from "./store/configureStore";
 import { Provider } from "react-redux";
+import { loadCourses } from "./actions/courseActions";
+import { loadAuthors } from "./actions/authorActions";
 
 var store = configureStore();
+//hydrating the store by prefilling the data on load
+store.dispatch(loadCourses());
+store.dispatch(loadAuthors());
 
 ReactDOM.render(
   <Provider store={store}>
@@ -23,6 +28,11 @@ ReactDOM.render(
 if (module.hot) {
   module.hot.accept("./App", () => {
     const NextApp = require("./App").default;
-    ReactDOM.render(<NextApp />, document.getElementById("root"));
+    ReactDOM.render(
+      <Provider store={store}>
+        <NextApp />
+      </Provider>,
+      document.getElementById("root")
+    );
   });
 }

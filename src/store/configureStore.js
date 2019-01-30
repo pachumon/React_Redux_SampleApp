@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "../reducers";
 import invariant from "redux-immutable-state-invariant";
+import thunk from "redux-thunk";
 
 export default function configureStore(initialState) {
   //this will be helful with redux devtools very cool
@@ -13,9 +14,19 @@ export default function configureStore(initialState) {
       })) ||
     compose;
 
-  return createStore(
+  const store = createStore(
     rootReducer,
     initialState,
-    composeEnhancers(applyMiddleware(invariant()))
+    composeEnhancers(applyMiddleware(thunk, invariant()))
   );
+
+  if (process.env.NODE_ENV !== "production") {
+    if (module.hot) {
+      module.hot.accept("../reducers", () => {
+        store.replaceReducer(rootReducer);
+      });
+    }
+  }
+
+  return store;
 }
