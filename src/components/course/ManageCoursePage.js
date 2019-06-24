@@ -5,8 +5,9 @@ import * as courseActions from "../../actions/courseActions";
 import { bindActionCreators } from "redux";
 import CourseForm from "./CourseForm";
 import toastr from "toastr";
+import { authorsFormattedForDropdown } from "../../selectors/selectors";
 
-class ManageCoursePage extends Component {
+export class ManageCoursePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,8 +42,24 @@ class ManageCoursePage extends Component {
     });
   }
 
+  courseFormIsValid() {
+    let formIsValid = true;
+    let errors = {};
+    if (this.state.course.title.length < 5) {
+      errors.title = "title must be at least 5 characters";
+      formIsValid = false;
+    }
+    this.setState(() => {
+      return { errors: errors };
+    });
+    return formIsValid;
+  }
+
   saveCourse(event) {
     event.preventDefault();
+    if (!this.courseFormIsValid()) {
+      return;
+    }
     this.setState(() => {
       return { saving: true };
     });
@@ -74,7 +91,7 @@ class ManageCoursePage extends Component {
 
   render() {
     return (
-      <div>        
+      <div>
         <CourseForm
           allAuthors={this.props.authors}
           course={this.state.course}
@@ -110,15 +127,9 @@ const mapStateToProps = (state, ownProps) => {
     course = getCourseById(state.courses, courseId);
   }
 
-  const authorFormattedForDropdown = state.authors.map(author => {
-    return {
-      value: author.id,
-      text: author.firstName + " " + author.lastName
-    };
-  });
   return {
     course: course,
-    authors: authorFormattedForDropdown
+    authors: authorsFormattedForDropdown(state.authors)
   };
 };
 

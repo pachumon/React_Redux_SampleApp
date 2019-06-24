@@ -1,6 +1,4 @@
-import TestUtils from "react-dom/test-utils";
 import React from "react";
-import ReactDOM from "react-dom";
 import CourseForm from "./CourseForm";
 import ShallowRenderer from "react-test-renderer/shallow";
 

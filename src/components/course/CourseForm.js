@@ -11,7 +11,6 @@ export default function CourseForm({
   saving,
   errors
 }) {
-  console.log(saving);
   return (
     <form>
       <h3>Manage Course</h3>
